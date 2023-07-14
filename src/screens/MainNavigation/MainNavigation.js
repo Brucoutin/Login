@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../LoginScreen/LoginScreen";
 import Welcome from "../Welcome/Welcome";
+import Cadastro from "../Cadastro/Cadastro";
 const {Screen, Navigator} = createNativeStackNavigator();
 
 export function MainNavigator(){
@@ -17,6 +18,11 @@ export function MainNavigator(){
            <Screen
               name="LoginScreen"
               component={LoginScreen} 
+              options={{headerShown:false}}      
+            />
+             <Screen
+              name="Cadastro"
+              component={Cadastro} 
               options={{headerShown:false}}      
             />
         </Navigator>

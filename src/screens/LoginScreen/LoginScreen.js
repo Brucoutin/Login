@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import woman from "../Assets/png/woman.png";
+import woman from "../assets/png/woman.png";
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/dist/Entypo';
-
 
 const LoginScreen = () => {
   const navigation = useNavigation();
   const { width, height } = Dimensions.get('screen');
   const [email, setEmail] = useState();
   const [senha, setSenha] = useState();
- 
+
   return (
     <View style={styles.container}>
       <View style={{ marginBottom: '3%', bottom: '5%' }}>
@@ -42,8 +41,11 @@ const LoginScreen = () => {
           onChangeText={setSenha}
           secureTextEntry={true}
         />
-        <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
+        <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Entrar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
+          <Text style={styles.textOu}>Cadastrar</Text>
         </TouchableOpacity>
         <Text style={styles.textOu}>ou</Text>
         <View style={styles.viewButtons}>
@@ -78,32 +80,33 @@ const styles = StyleSheet.create({
   form: {
     width: '100%',
     marginBottom: '4%',
-    top: '5%',
+    bottom: '1%',
     backgroundColor: '#fff',
-    height: '60%',
+    height: '67%',
     borderTopStartRadius: 20,
     borderTopEndRadius: 20,
   },
-  textLogin:{
+  textLogin: {
     fontSize: 45,
-    color: '#b4affe', 
-    textAlign: 'center' 
+    color: '#b4affe',
+    textAlign: 'center',
+    top: '2%',
   },
   label: {
     marginTop: 20,
     marginBottom: 5,
-    left:'5%',
-    color:'black'
+    left: '5%',
+    color: 'black'
   },
   input: {
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 10,
     padding: 10,
-    fontSize: 18,
+    fontSize: 15,
     width: '90%',
     alignSelf: 'center',
-    backgroundColor:'#f6f6f6'
+    backgroundColor: '#f6f6f6'
   },
   button: {
     marginTop: 20,
@@ -119,15 +122,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
   },
-  textOu:{
-    color: 'black', 
-    fontWeight: 'bold', 
-    marginTop: '5%', 
-    fontSize: 17, 
-    textAlign: 'center' 
+  textOu: {
+    color: 'black',
+    fontWeight: 'bold',
+    marginTop: '5%',
+    fontSize: 17,
+    textAlign: 'center'
   },
   viewButtons: {
-    top:'5%',
+    top: '5%',
     flexDirection: 'row',
     justifyContent: 'space-around',
   },

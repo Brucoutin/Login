@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Dimensions, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import woman from "../Assets/png/woman.png"
+import woman from "../assets/png/woman.png";
 
 function Welcome() {
     const navigation = useNavigation();
