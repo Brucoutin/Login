@@ -1,17 +1,27 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity, Dimensions, Alert } from 'react-native';
+import { ServerContainer, useNavigation } from '@react-navigation/native';
 import auth from "@react-native-firebase/auth";
 import woman from "../assets/png/woman.png";
 
 function Cadastro() {
     const navigation = useNavigation();
     const { width, height } = Dimensions.get('screen');
-    const [email, setEmail] = useState();
-    const [senha, setSenha] = useState();
-    const [nome, setNome] = useState();
-    const [sobreNome, setSobrenome] = useState();
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+    const [nome, setNome] = useState("");
+    const [sobreNome, setSobrenome] = useState("");
+    const [loading, setLoading] = useState(false);
 
+    const handlecadastro=()=>{
+     setLoading(true)
+     auth()
+     .createUserWithEmailAndPassword(email, senha, nome, sobreNome)
+     .then(()=> Alert.alert("Conta criada com sucesso!"))
+     .catch((error)=> console.log(error))
+     .finally(()=> setLoading(false))
+    }
+  
     return (
         <View style={styles.container}>
             <View style={{ marginBottom: '3%', bottom: '5%' }}>
@@ -30,34 +40,31 @@ function Cadastro() {
                     style={styles.input}
                     placeholder="Digite seu nome"
                     value={nome}
-                    onChangeText={setNome}
-                    secureTextEntry={true}
+                    onChangeText={(text)=> setNome(text)}
                 />
                 <Text style={styles.label}>SobreNome</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Digite seu Sobrenome"
                     value={sobreNome}
-                    onChangeText={setSobrenome}
-                    secureTextEntry={true}
+                    onChangeText={(text)=> setSobrenome(text)}
                 />
                 <Text style={styles.label}>Email</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Email"
                     value={email}
-                    onChangeText={setEmail}
-                    secureTextEntry={true}
+                    onChangeText={(text)=> setEmail(text)}
                 />
                 <Text style={styles.label}>Senha</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Senha"
                     value={senha}
-                    onChangeText={setSenha}
+                    onChangeText={(text)=> setSenha(text)}
                     secureTextEntry={true}
                 />
-                <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
+                <TouchableOpacity style={styles.button} onPress={() => handlecadastro()}>
                     <Text style={styles.buttonText}>Cadastrar</Text>
                 </TouchableOpacity>
             </View>
