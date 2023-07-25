@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { ServerContainer, useNavigation } from '@react-navigation/native';
 import auth from "@react-native-firebase/auth";
-import woman from "../assets/png/woman.png";
+import enviar from "../assets/png/enviar.png";
 
 function Cadastro() {
     const navigation = useNavigation();
@@ -10,23 +10,31 @@ function Cadastro() {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [nome, setNome] = useState("");
-    const [sobreNome, setSobrenome] = useState("");
     const [loading, setLoading] = useState(false);
 
     const handlecadastro=()=>{
-     setLoading(true)
      auth()
-     .createUserWithEmailAndPassword(email, senha, nome, sobreNome)
+     .createUserWithEmailAndPassword(email, senha, nome)
      .then(()=> Alert.alert("Conta criada com sucesso!"))
-     .catch((error)=> console.log(error))
-     .finally(()=> setLoading(false))
+     .catch(error => {
+       if (error.code === 'auth/email-already-in-use') {
+         console.log('That email address is already in use!');
+       }
+       if (error.code === 'auth/invalid-email') {
+         console.log('That email address is invalid!');
+       }
+       console.error(error);
+     });
+     setEmail('')
+     setNome('')
+     setSenha('')
     }
   
     return (
         <View style={styles.container}>
             <View style={{ marginBottom: '3%', bottom: '5%' }}>
                 <Image
-                    source={woman}
+                    source={enviar}
                     style={[styles.logo, { height: height * 0.3 }]}
                     resizeMode="contain"
                 />
@@ -41,13 +49,6 @@ function Cadastro() {
                     placeholder="Digite seu nome"
                     value={nome}
                     onChangeText={(text)=> setNome(text)}
-                />
-                <Text style={styles.label}>SobreNome</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Digite seu Sobrenome"
-                    value={sobreNome}
-                    onChangeText={(text)=> setSobrenome(text)}
                 />
                 <Text style={styles.label}>Email</Text>
                 <TextInput
@@ -81,14 +82,14 @@ const styles = StyleSheet.create({
     logo: {
         marginTop: '5%',
         top: '5%',
-
+       
     },
     form: {
         width: '100%',
         marginBottom: '4%',
-        bottom: '1%',
+        bottom: '5%',
         backgroundColor: '#fff',
-        height: '67%',
+        height: '75%',
         borderTopStartRadius: 20,
         borderTopEndRadius: 20,
     },

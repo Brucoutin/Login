@@ -1,17 +1,28 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import woman from "../assets/png/woman.png";
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/dist/Entypo';
-
+import auth from "@react-native-firebase/auth"
 const LoginScreen = () => {
   const navigation = useNavigation();
   const { width, height } = Dimensions.get('screen');
   const [email, setEmail] = useState();
   const [senha, setSenha] = useState();
-
+  
+  function handleEntrar (){
+    auth()
+    .signInWithEmailAndPassword(email, senha)
+    .then(()=> navigation.navigate("HomeScreen"))
+    .catch(error => {
+      Alert.alert("Email ou senha inválido!")
+      console.error(error);
+    });
+    setEmail('')
+    setSenha('')
+  }
   return (
     <View style={styles.container}>
       <View style={{ marginBottom: '3%', bottom: '5%' }}>
@@ -31,7 +42,6 @@ const LoginScreen = () => {
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
-          secureTextEntry={true}
         />
         <Text style={styles.label}>Senha</Text>
         <TextInput
@@ -41,7 +51,7 @@ const LoginScreen = () => {
           onChangeText={setSenha}
           secureTextEntry={true}
         />
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => handleEntrar()}>
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
